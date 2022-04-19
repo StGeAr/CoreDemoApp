@@ -6,11 +6,10 @@
 //
 
 import UIKit
-import CoreData
 
 class TaskListViewController: UITableViewController {
     
-    private let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let viewContext = StorageManager.shared.persistentContainer.viewContext
     
     private var taskList: [Task] = []
     private let cellID = "task"
@@ -93,6 +92,7 @@ class TaskListViewController: UITableViewController {
             }
         }
     }
+    
 }
 
 extension TaskListViewController {
@@ -107,5 +107,13 @@ extension TaskListViewController {
         content.text = task.title
         cell.contentConfiguration = content
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+//
+            taskList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
