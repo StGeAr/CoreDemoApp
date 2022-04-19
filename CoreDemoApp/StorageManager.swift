@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class StorageManager {
     static let shared = StorageManager()
@@ -37,8 +38,25 @@ class StorageManager {
     
     func fetchData() -> [Task] {
         let fetchRequest = Task.fetchRequest()
-        guard let taksList = try? persistentContainer.viewContext.fetch(fetchRequest) else { return [] }
+        let context = persistentContainer.viewContext
+        guard let taksList = try? context.fetch(fetchRequest) else { return [] }
         return taksList
+    }
+    
+    func save(_ taskName: String) {
+        let context = persistentContainer.viewContext
+        var taskList = fetchData()
+        let task = Task(context: context)
+        task.title = taskName
+        taskList.append(task)
+        saveContext()
+        
+    }
+    
+    func deleteTask(at index: Int) {
+        var taskList = fetchData()
+        taskList.remove(at: index)
+        saveContext()
     }
     
     private init() {}

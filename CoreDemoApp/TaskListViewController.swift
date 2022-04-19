@@ -55,21 +55,13 @@ class TaskListViewController: UITableViewController {
     private func updateTask() {
         showAlert(with: "Update Task", and: "What do you want to do?")
     }
-    
-//    private func fetchData() {
-//        let fetchRequest = Task.fetchRequest()
-//        do {
-//            taskList = try viewContext.fetch(fetchRequest)
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//    }
-    
+        
     private func showAlert(with title: String, and message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
-            self.save(task)
+            StorageManager.shared.save(task)
+            
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addAction(saveAction)
@@ -79,24 +71,6 @@ class TaskListViewController: UITableViewController {
         }
         present(alert, animated: true)
     }
-    
-    private func save(_ taskName: String) {
-        let task = Task(context: viewContext)
-        task.title = taskName
-        taskList.append(task)
-        
-        let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
-        tableView.insertRows(at: [cellIndex], with: .automatic)
-        
-        if viewContext.hasChanges {
-            do {
-                try viewContext.save()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
 }
 
 extension TaskListViewController {
@@ -115,10 +89,9 @@ extension TaskListViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            StorageManager.shared.deleteTask(at: indexPath.row)
             taskList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-            
         }
     }
     
