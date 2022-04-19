@@ -19,7 +19,7 @@ class TaskListViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         view.backgroundColor = .white
         setupNavigationBar()
-        fetchData()
+        taskList = StorageManager.shared.fetchData()
     }
 
     private func setupNavigationBar() {
@@ -52,14 +52,18 @@ class TaskListViewController: UITableViewController {
         showAlert(with: "New Task", and: "What do you want to do?")
     }
     
-    private func fetchData() {
-        let fetchRequest = Task.fetchRequest()
-        do {
-            taskList = try viewContext.fetch(fetchRequest)
-        } catch {
-            print(error.localizedDescription)
-        }
+    private func updateTask() {
+        showAlert(with: "Update Task", and: "What do you want to do?")
     }
+    
+//    private func fetchData() {
+//        let fetchRequest = Task.fetchRequest()
+//        do {
+//            taskList = try viewContext.fetch(fetchRequest)
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//    }
     
     private func showAlert(with title: String, and message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -111,9 +115,14 @@ extension TaskListViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//
             taskList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        updateTask()
     }
 }

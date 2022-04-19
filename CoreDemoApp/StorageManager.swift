@@ -34,4 +34,12 @@ class StorageManager {
             }
         }
     }
+    
+    func fetchData() -> [Task] {
+        let fetchRequest = Task.fetchRequest()
+        guard let taksList = try? persistentContainer.viewContext.fetch(fetchRequest) else { return [] }
+        return taksList
+    }
+    
+    private init() {}
 }
