@@ -61,11 +61,11 @@
 				A85E83F4280DD14900FB6B82 /* AppDelegate.swift */,
 				A85E83F6280DD14900FB6B82 /* SceneDelegate.swift */,
 				A85E83F8280DD14900FB6B82 /* TaskListViewController.swift */,
+				DE3B196A280F437600B63D98 /* StorageManager.swift */,
 				A85E8400280DD14A00FB6B82 /* Assets.xcassets */,
 				A85E8402280DD14A00FB6B82 /* LaunchScreen.storyboard */,
 				A85E8405280DD14A00FB6B82 /* Info.plist */,
 				A85E83FD280DD14900FB6B82 /* CoreDemoApp.xcdatamodeld */,
-				DE3B196A280F437600B63D98 /* StorageManager.swift */,
 			);
 			path = CoreDemoApp;
 			sourceTree = "<group>";
