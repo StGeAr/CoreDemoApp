@@ -50,21 +50,15 @@ class StorageManager {
         taskList.append(task)
         saveContext()
     }
-    
-    func update(_ taskName: String, at index: Int) {
-        var taskList = fetchData()
+        
+    func delete(_ task: Task) {
         let context = persistentContainer.viewContext
-        let task = Task(context: context)
-        taskList.remove(at: index)
-        task.title = taskName
-        taskList.append(task)
+        context.delete(task)
         saveContext()
     }
     
-    func deleteTask(at index: Int) {
-        var taskList = fetchData()
-        taskList.remove(at: index)
-        saveContext()
+    func update() {
+
     }
     
     private init() {}

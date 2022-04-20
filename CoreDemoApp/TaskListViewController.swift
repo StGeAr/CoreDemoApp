@@ -50,10 +50,6 @@ class TaskListViewController: UITableViewController {
         showAlert(with: "New Task", and: "What do you want to do?")
     }
     
-    private func updateTask() {
-        showAlert(with: "Update Task", and: "What do you want to do?")
-    }
-        
     private func showAlert(with title: String, and message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
@@ -63,7 +59,7 @@ class TaskListViewController: UITableViewController {
             let cellIndex = IndexPath(row: self.taskList.count - 1, section: 0)
             self.tableView.insertRows(at: [cellIndex], with: .automatic)
         }
-        
+    
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -90,14 +86,14 @@ extension TaskListViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let task = taskList[indexPath.row]
+            StorageManager.shared.delete(task)
             taskList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            taskList = StorageManager.shared.fetchData()
-            StorageManager.shared.saveContext()
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        showAlert(with: "Update Task", and: "What do you want to do?")
     }
 }
